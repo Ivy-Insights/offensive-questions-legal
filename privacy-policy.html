@@ -310,7 +310,7 @@
 <h2>12. Third-Party Links and Services</h2>
 <p>The Service may link to third-party websites and services, including social platforms and the App Store. We are not responsible for their privacy practices. Review their policies before providing them with information.</p>
 <h2>13. Changes to This Policy</h2>
-<p>We may update this Privacy Policy from time to time. If we make material changes, we will update the "Last Updated" date and provide additional notice, such as an in-app message, before the changes take effect where required by law. Your acceptance of a new version, including its version date, is recorded against your account. Your continued use of the Service after the effective date constitutes acceptance of the updated Policy.</p>
+<p>We may update this Privacy Policy from time to time. If we make material changes, we will update the "Effective" date and provide additional notice, such as an in-app message, before the changes take effect where required by law. Your acceptance of a new version, including its version date, is recorded against your account. Your continued use of the Service after the effective date constitutes acceptance of the updated Policy.</p>
 <h2>14. Contact Us</h2>
 <p><strong>Offensive Questions, Inc.</strong><br>PO BOX 94<br>Austin, TX 78767</p>
 <p>All inquiries, including privacy requests and support: <a href="mailto:support@offensivequestions.com">support@offensivequestions.com</a></p>
@@ -320,12 +320,13 @@
   </div>
 
   <script>
-    // The static content above is the source of truth (2026-09-07 V2).
+    // The static content above is the source of truth for this build (2026-09-07).
     // We fetch the API version so users see the very latest if the DB has moved forward,
     // and fall back to the static content if the API is unreachable or returns older text.
     // A leading duplicate <h1> in the API response (present in the DB-stored HTML) is
     // stripped so it doesn't conflict with the template's <h1>Privacy Policy</h1>.
-    const STATIC_LAST_UPDATED = '2026-09-07';
+    // (Note: this is the build date, separate from the doc's user-facing Effective date.)
+    const STATIC_BUILD_DATE = '2026-09-07';
 
     function stripLeadingH1(html) {
       return String(html || '').replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>\s*/i, '');
@@ -338,7 +339,7 @@
         const data = await response.json();
         if (!data || !data.text) return;
         const apiDate = data.updatedAt ? new Date(data.updatedAt) : null;
-        const staticDate = new Date(STATIC_LAST_UPDATED);
+        const staticDate = new Date(STATIC_BUILD_DATE);
         // Only replace if the API is at least as recent as the static content.
         if (apiDate && apiDate >= staticDate) {
           document.getElementById('content').innerHTML = stripLeadingH1(data.text);

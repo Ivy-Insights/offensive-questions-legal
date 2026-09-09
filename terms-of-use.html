@@ -345,7 +345,7 @@
 <p>For any dispute not subject to arbitration, you and we consent to the exclusive jurisdiction and venue of the state and federal courts located in Dallas County, Texas.</p>
 <p>If you are a consumer resident in a U.S. state or Canadian province whose law gives you non-waivable rights, nothing in this Section deprives you of the protection of that law or of any right you have under it to bring proceedings in the courts of your state or province.</p>
 <h2>22. Changes to These Terms</h2>
-<p>We may modify these Terms at any time. If we make material changes, we will provide notice by updating the "Last Updated" date and, where appropriate, by in-app notice. Your acceptance of a new version, including its version date, is recorded against your account.</p>
+<p>We may modify these Terms at any time. If we make material changes, we will provide notice by updating the "Effective" date and, where appropriate, by in-app notice. Your acceptance of a new version, including its version date, is recorded against your account.</p>
 <p>Changes take effect when posted, or on a later date if we specify one. Your continued use of the Service after changes take effect constitutes acceptance. If you do not agree, stop using the Service and delete your account.</p>
 <h2>23. General</h2>
 <p><strong>Entire Agreement.</strong> These Terms and the Privacy Policy are the entire agreement between you and us regarding the Service and supersede all prior agreements on that subject.</p>
@@ -367,12 +367,13 @@
   </div>
 
   <script>
-    // The static content above is the source of truth (2026-09-07 V2).
+    // The static content above is the source of truth for this build (2026-09-07).
     // We fetch the API version so users see the very latest if the DB has moved forward,
     // and fall back to the static content if the API is unreachable or returns older text.
     // A leading duplicate <h1> in the API response (present in the DB-stored HTML) is
     // stripped so it doesn't conflict with the template's <h1>Terms of Use</h1>.
-    const STATIC_LAST_UPDATED = '2026-09-07';
+    // (Note: this is the build date, separate from the doc's user-facing Effective date.)
+    const STATIC_BUILD_DATE = '2026-09-07';
 
     function stripLeadingH1(html) {
       return String(html || '').replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>\s*/i, '');
@@ -385,7 +386,7 @@
         const data = await response.json();
         if (!data || !data.text) return;
         const apiDate = data.updatedAt ? new Date(data.updatedAt) : null;
-        const staticDate = new Date(STATIC_LAST_UPDATED);
+        const staticDate = new Date(STATIC_BUILD_DATE);
         // Only replace if the API is at least as recent as the static content.
         if (apiDate && apiDate >= staticDate) {
           document.getElementById('content').innerHTML = stripLeadingH1(data.text);
