@@ -2,75 +2,477 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Open Offensive Questions</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offensive Questions — Every Question. Zero Filter.</title>
+  <meta name="description" content="The mobile party game your reputation won't survive. Weekend Pass or Monthly. 17+.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    html { height: 100%; }
     body {
-      margin: 0;
-      padding: 140px 20px;
-      font-family: 'Helvetica Neue', sans-serif;
-      text-align: center;
-      background: radial-gradient(circle, #fff200 0%, #fcb045 100%);
-      color: #333;
+      font-family: 'Agdasima', 'Helvetica Neue', sans-serif;
+      color: #111;
+      height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      background: radial-gradient(ellipse at 50% 30%, #FFE55C 0%, #FFC815 40%, #FF9500 80%, #FF6C00 100%);
+      display: flex;
+      flex-direction: column;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    :root {
+      --sticker-yellow: #FFC815;
+      --electric-blue: #2F56F1;
+      --pool-blue: #25DFFF;
+      --cream: #FBF4E3;
+      --outline: #000000;
     }
 
-    .sun-image {
-     max-width: 40px;
-    margin-bottom: 30px;
-    position: fixed;
-    left: 20px;    
-    top: 20px
+    /* sunburst rays */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -10%;
+      background: conic-gradient(
+        from 0deg at 50% 40%,
+        rgba(255,255,255,0.20) 0deg 12deg,
+        transparent 12deg 24deg,
+        rgba(255,255,255,0.20) 24deg 36deg,
+        transparent 36deg 48deg,
+        rgba(255,255,255,0.20) 48deg 60deg,
+        transparent 60deg 72deg,
+        rgba(255,255,255,0.20) 72deg 84deg,
+        transparent 84deg 96deg,
+        rgba(255,255,255,0.20) 96deg 108deg,
+        transparent 108deg 120deg,
+        rgba(255,255,255,0.20) 120deg 132deg,
+        transparent 132deg 144deg,
+        rgba(255,255,255,0.20) 144deg 156deg,
+        transparent 156deg 168deg,
+        rgba(255,255,255,0.20) 168deg 180deg,
+        transparent 180deg 192deg,
+        rgba(255,255,255,0.20) 192deg 204deg,
+        transparent 204deg 216deg,
+        rgba(255,255,255,0.20) 216deg 228deg,
+        transparent 228deg 240deg,
+        rgba(255,255,255,0.20) 240deg 252deg,
+        transparent 252deg 264deg,
+        rgba(255,255,255,0.20) 264deg 276deg,
+        transparent 276deg 288deg,
+        rgba(255,255,255,0.20) 288deg 300deg,
+        transparent 300deg 312deg,
+        rgba(255,255,255,0.20) 312deg 324deg,
+        transparent 324deg 336deg,
+        rgba(255,255,255,0.20) 336deg 348deg,
+        transparent 348deg 360deg
+      );
+      z-index: 0;
+      pointer-events: none;
+    }
+    /* halftone dot corners */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 3% 4%, rgba(0,0,0,0.18) 1.5px, transparent 2.2px),
+        radial-gradient(circle at 97% 4%, rgba(0,0,0,0.18) 1.5px, transparent 2.2px),
+        radial-gradient(circle at 3% 96%, rgba(0,0,0,0.18) 1.5px, transparent 2.2px),
+        radial-gradient(circle at 97% 96%, rgba(0,0,0,0.18) 1.5px, transparent 2.2px);
+      background-size: 20px 20px, 20px 20px, 20px 20px, 20px 20px;
+      background-position: 0 0, 100% 0, 0 100%, 100% 100%;
+      mask-image:
+        radial-gradient(circle at 3% 4%, black 12%, transparent 25%),
+        radial-gradient(circle at 97% 4%, black 12%, transparent 25%),
+        radial-gradient(circle at 3% 96%, black 12%, transparent 25%),
+        radial-gradient(circle at 97% 96%, black 12%, transparent 25%);
+      -webkit-mask-image:
+        radial-gradient(circle at 3% 4%, black 12%, transparent 25%),
+        radial-gradient(circle at 97% 4%, black 12%, transparent 25%),
+        radial-gradient(circle at 3% 96%, black 12%, transparent 25%),
+        radial-gradient(circle at 97% 96%, black 12%, transparent 25%);
+      pointer-events: none;
+      z-index: 1;
     }
 
-    h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
+    main {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 40px;
+      padding: 24px 60px 16px;
+      min-height: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .cards-area { grid-column: 1; grid-row: 1; }
+    .copy       { grid-column: 2; grid-row: 1; }
+
+    /* mobile-only elements hidden on desktop (higher specificity so
+       .cta-row { display: inline-flex } later in the file can't win) */
+    .wordmark.wordmark-mobile,
+    .cta-row.cta-mobile { display: none; }
+
+    /* ── Left: single card ──────────────────────────────────────────── */
+    .cards-area {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+      height: 100%;
+    }
+    .card-front {
+      position: relative;
+      transform: rotate(-4deg);
+      z-index: 3;
+      filter: drop-shadow(6px 8px 0 rgba(0,0,0,0.14));
+      max-height: 82vh;
+    }
+    .card-front img {
+      max-height: 82vh;
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      display: block;
     }
 
-    p {
-      font-size: 18px;
+    /* sparkles */
+    .sparkle {
+      position: absolute;
+      color: #000;
+      font-family: 'Agdasima', sans-serif;
+      font-weight: 700;
+      line-height: 1;
+      z-index: 4;
+      pointer-events: none;
+    }
+    .sparkle.a { top: 6%; left: 4%; transform: rotate(-14deg); font-size: 26px; }
+    .sparkle.b { bottom: 8%; left: 2%; transform: rotate(20deg); font-size: 20px; }
+    .sparkle.c { top: 50%; right: 4%; transform: rotate(10deg); font-size: 22px; }
+
+    /* ── Right: copy + CTAs ────────────────────────────────────────── */
+    .copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 0;
+      max-height: 100%;
+    }
+    .wordmark {
+      font-family: 'Agdasima', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #000;
+    }
+    .wordmark-desktop {
+      font-size: clamp(22px, 2.4vw, 32px);
+      letter-spacing: 0.12em;
+      margin: 0 0 18px;
+      opacity: 0.9;
+    }
+    .headline {
+      font-family: 'Agdasima', sans-serif;
+      font-weight: 700;
+      font-size: clamp(52px, 6.4vw, 92px);
+      line-height: 0.92;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: #000;
+      margin: 0 0 18px;
+    }
+    .sub {
+      font-family: 'Agdasima', sans-serif;
+      font-size: clamp(18px, 1.9vw, 24px);
+      color: #111;
+      margin: 0 0 26px;
+      max-width: 560px;
+      line-height: 1.35;
+    }
+
+    .passes {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
       margin-bottom: 20px;
     }
-
-    .app-button {
+    .pass {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--cream);
+      border: 3px solid var(--outline);
+      border-right-width: 6px;
+      border-bottom-width: 6px;
+      border-radius: 16px;
+      padding: 12px 18px;
+      transition: transform 0.08s ease, border-width 0.08s ease;
+    }
+    .pass:active {
+      border-right-width: 4px;
+      border-bottom-width: 4px;
+      transform: translate(2px, 2px);
+    }
+    .pass-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+    .pass h3 {
+      font-family: 'Agdasima', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      text-transform: uppercase;
+      color: #000;
+      margin: 0;
+      line-height: 1;
+    }
+    .pass .tag {
       display: inline-block;
-      font-size: 18px;
-      padding: 12px 24px;
-      background-color: #007aff;
-      color: white;
-      border-radius: 8px;
-      text-decoration: none;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: background-color 0.3s;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-family: 'Agdasima', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #000;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border: 2px solid #000;
+    }
+    .pass.weekend .tag { background: #FF9500; }
+    .pass.monthly .tag { background: var(--electric-blue); color: #fff; border-color: #000; }
+    .pass-right { text-align: right; }
+    .pass .price {
+      font-family: 'Agdasima', sans-serif;
+      font-weight: 700;
+      font-size: 30px;
+      color: #000;
+      line-height: 1;
+    }
+    .pass .price-sub {
+      font-family: 'Agdasima', sans-serif;
+      font-size: 15px;
+      color: #333;
+      margin-top: 3px;
+      line-height: 1;
     }
 
-    .app-button:hover {
-      background-color: #005ecb;
+    .fine-print {
+      font-family: 'Agdasima', sans-serif;
+      font-size: 15px;
+      color: rgba(0,0,0,0.6);
+      margin: 0 0 18px;
     }
 
-    .badge-image {
- max-width: 400px;
-      margin-bottom: 30px;
-      margin-top: 70px
+    .cta-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
     }
-    @media only screen and (max-width: 600px) {
-  .badge-image {
-      max-width: 300px;
+    .app-badge { transition: transform .08s ease; }
+    .app-badge:active { transform: translate(1px, 1px); }
+    .app-badge img { height: 68px; width: auto; }
+
+    /* footer */
+    footer {
+      position: relative;
+      z-index: 2;
+      padding: 8px 32px 14px;
+      text-align: center;
+      font-family: 'Agdasima', sans-serif;
+      flex: 0 0 auto;
+    }
+    footer a {
+      color: rgba(0,0,0,0.65);
+      font-size: 14px;
+      margin: 0 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    footer a:hover { color: #000; text-decoration: underline; }
+
+    /* Short desktop viewports — shrink slightly so nothing scrolls */
+    @media (max-height: 800px) and (min-width: 901px) {
+      .card-front, .card-front img { max-height: 74vh; }
+      .wordmark-desktop { font-size: 22px; margin-bottom: 12px; }
+      .headline { font-size: 54px; margin-bottom: 12px; }
+      .sub { font-size: 18px; margin-bottom: 18px; }
+      .pass { padding: 10px 14px; }
+      .pass h3 { font-size: 20px; }
+      .pass .tag { font-size: 11px; }
+      .pass .price { font-size: 24px; }
+      .pass .price-sub { font-size: 13px; }
+      .fine-print { font-size: 13px; margin-bottom: 12px; }
+      .app-badge img { height: 56px; }
     }
 
-}
+    /* ═══ MOBILE ═════════════════════════════════════════════════════
+       Layout order Alex specified:
+         1. Title "Offensive Questions"
+         2. Card pack pic
+         3. App Store CTA button
+         4. Everything else (headline, sub, tiles, fine print)
+    */
+    @media (max-width: 900px) {
+      body {
+        height: auto;
+        overflow: auto;
+        min-height: 100vh;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        padding: 24px 20px 20px;
+      }
+      /* show mobile-only, hide desktop-only (specificity must match the
+         .wordmark.wordmark-mobile / .cta-row.cta-mobile hide rule above) */
+      .wordmark.wordmark-mobile { display: flex; }
+      .cta-row.cta-mobile { display: flex; }
+      .wordmark-desktop { display: none; }
+      .cta-desktop { display: none; }
+
+      /* Mobile title — the big "OFFENSIVE QUESTIONS" at the top */
+      .wordmark-mobile {
+        justify-content: center;
+        align-items: center;
+        gap: 14px;
+        font-size: clamp(36px, 9vw, 52px);
+        letter-spacing: 0.01em;
+        line-height: 1;
+        margin: 0;
+        opacity: 1;
+        text-align: center;
+      }
+      .wordmark-mobile img {
+        width: 44px;
+        height: 44px;
+      }
+
+      .cards-area {
+        max-width: 340px;
+        margin: 0 auto;
+        height: auto;
+      }
+      .card-front { transform: rotate(-3deg); max-height: none; }
+      .card-front img { max-height: none; max-width: 100%; width: 100%; }
+
+      .sparkle { display: none; }
+
+      /* Mobile primary CTA — right below card */
+      .cta-mobile {
+        display: flex !important;
+        justify-content: center;
+        margin: 4px 0 8px;
+      }
+
+      .copy {
+        justify-content: flex-start;
+        align-items: center;
+        text-align: center;
+        max-height: none;
+      }
+      .headline { font-size: clamp(42px, 10vw, 60px); text-align: center; }
+      .sub { text-align: center; margin-left: auto; margin-right: auto; }
+      .passes { width: 100%; max-width: 420px; }
+      .fine-print { text-align: center; }
+    }
   </style>
 </head>
 <body>
-  <img src="https://my-site-common.s3.us-east-2.amazonaws.com/sun.png" alt="Happy Sun" class="sun-image">
-  <h1>Offensive Questions</h1>
-  <a target="_blank" rel="noopener noreferrer" href="https://apps.apple.com/us/app/offensive-questions/id6740069192"><img alt="Get it on Google Play" loading="lazy" width="646" height="250" decoding="async" data-nimg="1" style="color:transparent;width:auto;height:60px;user-select:none;display:block; margin: 0 auto" src="https://my-site-common.s3.us-east-2.amazonaws.com/App_Store_Badge.svg"></a>  
-<img src="https://my-site-common.s3.us-east-2.amazonaws.com/image_2025-05-14_133911182-portrait.png"  class="badge-image">
-<div style="margin-top: 20px; margin-bottom: 40px;">
-  <a href="/privacy-policy" style="display: inline-block; padding: 10px 22px; margin: 0 6px; background: #ffffff; color: #333; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; box-shadow: 0 2px 6px rgba(0,0,0,0.12);">Privacy Policy</a>
-  <a href="/terms-of-use" style="display: inline-block; padding: 10px 22px; margin: 0 6px; background: #ffffff; color: #333; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; box-shadow: 0 2px 6px rgba(0,0,0,0.12);">Terms of Use</a>
-</div>
+
+  <main>
+
+    <!-- 1. MOBILE TITLE — top of page on mobile only -->
+    <p class="wordmark wordmark-mobile">
+      <img src="https://my-site-common.s3.us-east-2.amazonaws.com/sun.png" alt="OQ sun">
+      Offensive Questions
+    </p>
+
+    <!-- 2. CARD (left col on desktop, second block on mobile) -->
+    <div class="cards-area">
+      <span class="sparkle a">✦</span>
+      <span class="sparkle b">✦</span>
+      <span class="sparkle c">✦</span>
+      <div class="card-front">
+        <img src="assets/card.png" alt="Sample Offensive Questions gameplay card">
+      </div>
+    </div>
+
+    <!-- 3. MOBILE APP STORE CTA — right below card on mobile only -->
+    <div class="cta-row cta-mobile">
+      <a class="app-badge" target="_blank" rel="noopener"
+         href="https://apps.apple.com/us/app/offensive-questions/id6740069192">
+        <img src="https://my-site-common.s3.us-east-2.amazonaws.com/App_Store_Badge.svg"
+             alt="Download on the App Store">
+      </a>
+    </div>
+
+    <!-- RIGHT column on desktop; below CTA on mobile -->
+    <div class="copy">
+      <p class="wordmark wordmark-desktop">◆ Offensive Questions ◆</p>
+
+      <h1 class="headline">
+        Every question.<br>
+        Zero filter.
+      </h1>
+
+      <p class="sub">
+        The party game your reputation won't survive. Unlock every pack for parties, dates, trips, and questionable decisions.
+      </p>
+
+      <div class="passes">
+        <a class="pass weekend" target="_blank" rel="noopener"
+           href="https://apps.apple.com/us/app/offensive-questions/id6740069192">
+          <div class="pass-left">
+            <h3>Weekend Pass</h3>
+            <span class="tag">48 Hours</span>
+          </div>
+          <div class="pass-right">
+            <div class="price">$3.99</div>
+            <div class="price-sub">One-time</div>
+          </div>
+        </a>
+        <a class="pass monthly" target="_blank" rel="noopener"
+           href="https://apps.apple.com/us/app/offensive-questions/id6740069192">
+          <div class="pass-left">
+            <h3>Monthly Pass</h3>
+            <span class="tag">Most Popular</span>
+          </div>
+          <div class="pass-right">
+            <div class="price">$9.99</div>
+            <div class="price-sub">~$2.29/week</div>
+          </div>
+        </a>
+      </div>
+
+      <p class="fine-print">Subscription auto-renews. Cancel anytime.</p>
+
+      <!-- Desktop-only App Store button (mobile has its own above) -->
+      <div class="cta-row cta-desktop">
+        <a class="app-badge" target="_blank" rel="noopener"
+           href="https://apps.apple.com/us/app/offensive-questions/id6740069192">
+          <img src="https://my-site-common.s3.us-east-2.amazonaws.com/App_Store_Badge.svg"
+               alt="Download on the App Store">
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <a href="/privacy-policy">Privacy Policy</a>
+    ·
+    <a href="/terms-of-use">Terms of Use</a>
+  </footer>
+
 </body>
 </html>
-
-
