@@ -53,6 +53,33 @@
       margin-bottom: 30px;
       margin-top: 70px
     }
+    .legal-links {
+      margin-top: 12px;
+      margin-bottom: 40px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .legal-links a {
+      display: inline-block;
+      padding: 10px 22px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .legal-links a:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: translateY(-1px);
+    }
+
     @media only screen and (max-width: 600px) {
   .badge-image {
       max-width: 300px;
@@ -66,6 +93,10 @@
   <h1>Offensive Questions</h1>
   <a target="_blank" rel="noopener noreferrer" href="https://apps.apple.com/us/app/offensive-questions/id6740069192"><img alt="Get it on Google Play" loading="lazy" width="646" height="250" decoding="async" data-nimg="1" style="color:transparent;width:auto;height:60px;user-select:none;display:block; margin: 0 auto" src="https://my-site-common.s3.us-east-2.amazonaws.com/App_Store_Badge.svg"></a>  
 <img src="https://my-site-common.s3.us-east-2.amazonaws.com/image_2025-05-14_133911182-portrait.png"  class="badge-image">
+<div class="legal-links">
+  <a href="/privacy-policy">Privacy Policy</a>
+  <a href="/terms-of-use">Terms of Use</a>
+</div>
 </body>
 </html>
 
