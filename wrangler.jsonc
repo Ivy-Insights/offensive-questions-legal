@@ -1,0 +1,7 @@
+{
+  // Static site: every HTML page at the repo root is served as an asset.
+  // The name must match the Worker in Cloudflare Workers Builds.
+  "name": "offensive-questions-legal-web",
+  "compatibility_date": "2026-11-01",
+  "assets": { "directory": "." }
+}
